@@ -1,6 +1,8 @@
 # Sword Flow
-The workflow engine library for Golang
+
 ![logo](./logo.png)
+
+The workflow engine library for Golang
 
 ## Overview
 
