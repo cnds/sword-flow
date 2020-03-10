@@ -8,8 +8,8 @@ type TypePlace uint
 // TriggerType type of Trigger
 type TriggerType string
 
-// ArcType type of Arc
-type ArcType string
+//TypeArc type of Arc
+type TypeArc string
 
 // ArcDirection in or out
 type ArcDirection uint
@@ -34,17 +34,17 @@ const (
 	// TIME after a time limit has expired
 	TIME TriggerType = "TIME"
 	// SEQ ordinary sequential flow, not a join or a split.
-	SEQ ArcType = "SEQ"
+	SEQ TypeArc = "SEQ"
 	// EORS Explicit OR split.
-	EORS ArcType = "EORS"
+	EORS TypeArc = "EORS"
 	// IORS Implicit OR split.
-	IORS ArcType = "IORS"
+	IORS TypeArc = "IORS"
 	// ORJ explicit and implicit)
-	ORJ ArcType = "ORJ"
+	ORJ TypeArc = "ORJ"
 	// ANDS and split
-	ANDS ArcType = "ANDS"
+	ANDS TypeArc = "ANDS"
 	// ANDJ and join
-	ANDJ ArcType = "ANDJ"
+	ANDJ TypeArc = "ANDJ"
 	// IN arc in direction
 	IN ArcDirection = 0
 	// OUT arc out direction
