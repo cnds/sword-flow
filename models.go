@@ -10,7 +10,7 @@ import (
 type SfWorkFlows struct {
 	gorm.Model
 	Name        string          `gorm:"type:varchar(100)"`
-	description string          `gorm:"type:text"`
+	Description string          `gorm:"type:text"`
 	IsValid     bool            `gorm:"default:false"`
 	IsDraft     bool            `gorm:"default:true"`
 	ErrorMsg    string          `gorm:"type:text"`
@@ -105,7 +105,16 @@ func (token *SfTokens) AfterCreate(scope *gorm.Scope) (err error) {
 		scope.DB().Save(&token.Case)
 		return
 	}
-	// TODO Find all inward arcs which go from this place
+	// Find all inward arcs which go from this place
+	// Note Place -out-> Transition -in-> Place
+	var inwardArcs SfArcs
+	var outputTransition SfTransitions
+	scope.DB().Where("direction = ?", OUT).Where("place_id", token.Place.ID).First(&inwardArcs)
+	scope.DB().First(&outputTransition, inwardArcs.TransitionID)
+	// if AND-JOIN type of arc ,check all place token
+	if inwardArcs.ArcType == ANDJ {
+		//TODO
+	}
 	return
 }
 

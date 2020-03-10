@@ -11,6 +11,9 @@ type TriggerType string
 // ArcType type of Arc
 type ArcType string
 
+// ArcDirection in or out
+type ArcDirection uint
+
 // CaseStatus status of CaseStatus
 type CaseStatus string
 
@@ -42,6 +45,10 @@ const (
 	ANDS ArcType = "ANDS"
 	// ANDJ and join
 	ANDJ ArcType = "ANDJ"
+	// IN arc in direction
+	IN ArcDirection = 0
+	// OUT arc out direction
+	OUT ArcDirection = 1
 	// OPEN open status
 	OPEN CaseStatus = "OPEN"
 	// CLOSE close status
