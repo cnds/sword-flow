@@ -29,7 +29,7 @@ type SfPlaces struct {
 	Name        string      `gorm:"type:text"`
 	Description string      `gorm:"type:text"`
 	SortOrder   uint        `gorm:"default:0"`
-	PlaceType   uint        `gorm:"default:0"`
+	PlaceType   TypePlace   `gorm:"default:0"`
 	WorkFlow    SfWorkFlows `gorm:"foreignkey:WorkflowID"`
 	Arcs        []SfArcs    `gorm:"foreignkey:PlaceID"`
 	Tokens      []SfTokens  `gorm:"foreignkey:PlaceID"`
@@ -66,7 +66,7 @@ type SfArcs struct {
 type SfCases struct {
 	gorm.Model
 	WorkflowID uint          `gorm:"type:bigint"`
-	State      string        `gorm:"type:varchar(100)"`
+	State      CaseStatus    `gorm:"type:varchar(100)"`
 	Workflow   SfWorkFlows   `gorm:"foreignkey:WorkflowID"`
 	WorkItems  []SfWorkItems `gorm:"foreignkey:CaseID"`
 	Tokens     []SfTokens    `gorm:"foreignkey:CaseID"`
@@ -80,7 +80,7 @@ type SfTokens struct {
 	WorkflowID       uint        `gorm:"type:bigint"`
 	CaseID           uint        `gorm:"type:bigint"`
 	PlaceID          uint        `gorm:"type:bigint"`
-	State            uint        `gorm:"type:varchar(50)"`
+	State            TokenStatus `gorm:"type:varchar(50)"`
 	WorkItemID       uint        `gorm:"type:bigint"`
 	LockedWorkItemID uint        `gorm:"type:bigint"`
 	WorkFlow         SfWorkFlows `gorm:"foreignkey:WorkflowID"`
@@ -100,8 +100,8 @@ type SfTokens struct {
 func (token *SfTokens) AfterCreate(scope *gorm.Scope) (err error) {
 	scope.DB().Model(&token).Related(&token.Case)
 	scope.DB().Model(&token).Related(&token.Place)
-	if token.Place.PlaceType == 9 {
-		token.Case.State = "CLOSED"
+	if token.Place.PlaceType == END {
+		token.Case.State = CLOSE
 		scope.DB().Save(&token.Case)
 		return
 	}
